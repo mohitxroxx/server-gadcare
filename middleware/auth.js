@@ -1,22 +1,22 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken")
 
-const config = process.env;
+const config = process.env
 
 const verifyToken = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-
+    const token = req.body.token || req.query.token|| req.headers["authorization"] || req.cookies.jwt
+    // console.log(token)
     if (!token) {
-        return res.status(403).send("Session Expired. Please log in again to continue.");
-    }
 
+        return res.status(403).send("Session Expired Login again to continue")
+    }
     try {
-        const decoded = jwt.verify(token, config.TOKEN_KEY);
-        req.user = decoded;
-        next();
+        const decoded = jwt.verify(token, config.TOKEN_KEY)
+        req.user = decoded
     } catch (err) {
-        return res.status(401).send("Error occurred. Please log in again.");
-    }
-};
+        return res.status(401).send("Error occured login again")
+    }    
+    return next()
 
-module.exports = verifyToken;
+}
+
+module.exports = verifyToken
