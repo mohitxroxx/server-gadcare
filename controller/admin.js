@@ -136,7 +136,7 @@ app.post("/send-message", auth, async (req, res) => {
     try {
       const refid = req.params.refid;
       const { earningData } = req.body;
-  
+      // console.log(earningData[0])
       if (!earningData) {
         return res.status(400).json({ error: "Earning data is required" });
       }
@@ -146,7 +146,7 @@ app.post("/send-message", auth, async (req, res) => {
         return res.status(404).json({ error: "User not found" });
       }
   
-      foundUser.earnings.push(earningData);
+      foundUser.earnings.push(earningData[0]);
       await foundUser.save();
   
       return res.status(200).json({ message: "Earning data added successfully" });
