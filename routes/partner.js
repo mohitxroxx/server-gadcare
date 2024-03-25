@@ -21,7 +21,7 @@ router.post('/login',login)
 router.get('/logout',auth,logout)
 
 // upload an image
-router.post('/upload',upload)
+router.post('/upload',auth,upload)
 
 // get user details by email
 router.post('/home',auth,home)
