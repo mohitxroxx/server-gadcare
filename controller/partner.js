@@ -181,6 +181,9 @@ app.post('/login', async (req, res) => {
     const chk = await user.findOne({ email })
     if (!chk)
       return res.status(404).send('User does not exists')
+      const isPasswordValid = await bcrypt.compare(password, chk.password);
+      if (!isPasswordValid)
+        return res.status(401).json({ error: "Invalid password" });
     const expiresIn = rememberMe ? '7d' : '2h';
     const token = jwt.sign({ id: chk.id, email: chk.email }, TOKEN_KEY, { expiresIn })
     res.cookie('jwt', token, {
