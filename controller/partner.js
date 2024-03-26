@@ -166,7 +166,7 @@ app.post('/send-email', async (req, res) => {
       text: `Email: ${senderEmail}\n\nType: ${type}\n\nDescription: ${description}`
     });
 
-    res.status(200).send('Email sent successfully');
+    return res.status(200).json({msg:'Email sent successfully'});
   } catch (error) {
     console.error('Error sending email:', error);
     res.status(500).send('Error sending email');
