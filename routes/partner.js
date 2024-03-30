@@ -29,7 +29,7 @@ router.post('/upload',upload)
 router.post('/home',auth,home)
 
 // upload profile icon image
-router.post('/icon',icon)
+router.post('/icon',auth,icon)
 
 // change password of an existing user
 router.post('/password',auth,password)
@@ -37,8 +37,8 @@ router.post('/password',auth,password)
 // send email via nodemailer
 router.post('/send-email',auth,email)
 //earnings
-router.get('/earnings/:refid',earnings)
+router.get('/earnings/:refid',auth,earnings)
 
-router.get('/icon/:refid',myImg)
+router.get('/icon/:refid',auth,myImg)
 
 module.exports=router 
