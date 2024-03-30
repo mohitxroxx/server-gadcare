@@ -10,6 +10,8 @@ const home=require('../controller/partner')
 const icon=require('../controller/partner')
 const password=require('../controller/partner')
 const email=require('../controller/partner')
+const earnings=require('../controller/partner')
+const myImg=require('../controller/partner')
 
 //register a new user
 router.post('/register',register)
@@ -21,18 +23,22 @@ router.post('/login',login)
 router.get('/logout',auth,logout)
 
 // upload an image
-router.post('/upload',auth,upload)
+router.post('/upload',upload)
 
 // get user details by email
 router.post('/home',auth,home)
 
 // upload profile icon image
-router.post('/icon',auth,icon)
+router.post('/icon',icon)
 
 // change password of an existing user
 router.post('/password',auth,password)
 
 // send email via nodemailer
 router.post('/send-email',auth,email)
+//earnings
+router.get('/earnings/:refid',earnings)
+
+router.get('/icon/:refid',myImg)
 
 module.exports=router 

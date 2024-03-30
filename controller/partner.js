@@ -253,7 +253,7 @@ app.post('/password',async(req,res)=>{
     const currentUser=await user.findOne({email:email})
     if(!currentUser)
     return res.status(200).json("No record found for this email")
-    const hashed=await bcrypt.hash(newPassword, 10)
+  const hashed=await bcrypt.hash(newPassword, 10)
     currentUser.password=hashed;
     await currentUser.save()
     res.status(200).json("Password changed successfully")
@@ -261,4 +261,36 @@ app.post('/password',async(req,res)=>{
     res.status(500).json("internal server error occured while updating password")
   }
 })
+app.get('/earnings/:refid',async(req,res)=>{
+  try {
+    const refid=req.params.refid
+    const currentUser=await user.findOne({refid})
+    // console.log(currentUser)
+    currentUser.earnings.sort((a,b)=>b.dateOfPurchase-a.dateOfPurchase)
+    console.log(currentUser.earnings)
+    res.status(200).json(currentUser.earnings)
+  } catch (error) {
+    res.status(500).json("internal server error occured while fetching data")
+  }
+})
+app.get('/icon/:refid',async(req,res)=>{
+  try {
+    const refid=req.params.refid
+    const currentUser=await user.findOne({refid})
+    // console.log(currentUser.earnings)
+    return res.status(200).json({url:currentUser.icon})
+  } catch (error) {
+    res.status(500).json("internal server error occured while fetching data")
+  }
+})
+// app.patch('/icon/:refid',async(req,res)=>{
+//   try {
+//     const refid=req.params.refid
+//     const currentUser=await user.findOne({refid})
+//     // console.log(currentUser.earnings)
+//     return res.status(200).json({url:currentUser.icon})
+//   } catch (error) {
+//     res.status(500).json("internal server error occured while fetching data")
+//   }
+// })
 module.exports = app;
