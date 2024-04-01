@@ -37,7 +37,7 @@ router.post('/password',auth,password)
 // send email via nodemailer
 router.post('/send-email',auth,email)
 //earnings
-router.get('/earnings',earnings)
+router.get('/earnings',auth,earnings)
 
 router.get('/icon',auth,myImg)
 
