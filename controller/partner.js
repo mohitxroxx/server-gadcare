@@ -261,22 +261,29 @@ app.post('/password',async(req,res)=>{
     res.status(500).json("internal server error occured while updating password")
   }
 })
-app.get('/earnings/:refid',async(req,res)=>{
+app.get('/earnings',auth,async(req,res)=>{
   try {
-    const refid=req.params.refid
-    const currentUser=await user.findOne({refid})
+    const token=req.cookies.jwt
+    const decoded = jwt.verify(token, TOKEN_KEY)
+    console.log(decoded)
+    const email=decoded.email
+    const currentUser=await user.findOne({email})
     // console.log(currentUser)
     currentUser.earnings.sort((a,b)=>b.dateOfPurchase-a.dateOfPurchase)
     console.log(currentUser.earnings)
     res.status(200).json(currentUser.earnings)
   } catch (error) {
+    console.error(error)
     res.status(500).json("internal server error occured while fetching data")
   }
 })
-app.get('/icon/:refid',async(req,res)=>{
+app.get('/icon',async(req,res)=>{
   try {
-    const refid=req.params.refid
-    const currentUser=await user.findOne({refid})
+    const token=req.cookies.jwt
+    const decoded = jwt.verify(token, TOKEN_KEY)
+    console.log(decoded)
+    const email=decoded.email
+    const currentUser=await user.findOne({email})
     // console.log(currentUser.earnings)
     return res.status(200).json({url:currentUser.icon})
   } catch (error) {
