@@ -11,6 +11,7 @@ const icon=require('../controller/partner')
 const password=require('../controller/partner')
 const email=require('../controller/partner')
 const earnings=require('../controller/partner')
+const messages=require('../controller/partner')
 const myImg=require('../controller/partner')
 
 //register a new user
@@ -38,6 +39,8 @@ router.post('/password',auth,password)
 router.post('/send-email',auth,email)
 //earnings
 router.get('/earnings',auth,earnings)
+
+router.get('/messages',messages)
 
 router.get('/icon',auth,myImg)
 

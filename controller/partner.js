@@ -12,6 +12,7 @@ const user = require("../models/user")
 const cloudinary = require("../config/cloudinary")
 const upload = require("../middleware/multer")
 const path = require('path');
+const { timeStamp } = require('console')
 const logoPath = path.join(__dirname, '../../client/src/assets/logo.jpg');
 const mailIconPath = path.join(__dirname, '../../client/src/assets/mail.png');
 const logoCid = 'companyLogo';
@@ -216,7 +217,7 @@ app.get("/logout", async (req, res) => {
   try {
     res.clearCookie('jwt')
     // res.clearCookie('refid')
-    res.status(200).send("User Logged out and session ended")
+    res.status(200).json({msg:"User Logged out and session ended"})
   } catch (ex) {
     next(ex)
   }
@@ -272,6 +273,22 @@ app.get('/earnings',auth,async(req,res)=>{
     currentUser.earnings.sort((a,b)=>b.dateOfPurchase-a.dateOfPurchase)
     console.log(currentUser.earnings)
     res.status(200).json(currentUser.earnings)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json("internal server error occured while fetching data")
+  }
+})
+app.get('/messages',auth,async(req,res)=>{
+  try {
+    const token=req.cookies.jwt
+    const decoded = jwt.verify(token, TOKEN_KEY)
+    // console.log(decoded)
+    const email=decoded.email
+    const currentUser=await user.findOne({email})
+    // console.log(currentUser)
+    // currentUser.messages.sort(-1)
+    // console.log(currentUser.messages)
+    return res.status(200).json(currentUser.messages)
   } catch (error) {
     console.error(error)
     res.status(500).json("internal server error occured while fetching data")
