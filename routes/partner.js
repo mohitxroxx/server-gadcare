@@ -9,6 +9,7 @@ const upload=require('../controller/partner')
 const home=require('../controller/partner')
 const icon=require('../controller/partner')
 const password=require('../controller/partner')
+const user=require('../controller/partner')
 const email=require('../controller/partner')
 const earnings=require('../controller/partner')
 const messages=require('../controller/partner')
@@ -34,6 +35,8 @@ router.post('/icon',auth,icon)
 
 // change password of an existing user
 router.post('/password',auth,password)
+
+router.patch('/user',user)
 
 // send email via nodemailer
 router.post('/send-email',auth,email)

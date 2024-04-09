@@ -307,14 +307,21 @@ app.get('/icon',async(req,res)=>{
     res.status(500).json("internal server error occured while fetching data")
   }
 })
-// app.patch('/icon/:refid',async(req,res)=>{
-//   try {
-//     const refid=req.params.refid
-//     const currentUser=await user.findOne({refid})
-//     // console.log(currentUser.earnings)
-//     return res.status(200).json({url:currentUser.icon})
-//   } catch (error) {
-//     res.status(500).json("internal server error occured while fetching data")
-//   }
-// })
+app.patch('/user',async(req,res)=>{
+  try {
+    const {refid,country,service,password,email,f_name,m_name,l_name,category,name,contact,city,state,zip,icon}=req.body
+    const UpdatedUser=await user.findOneAndUpdate(
+      {refid:refid},
+      {$set:{country,service,password,email,f_name,m_name,l_name,category,name,contact,city,state,zip,icon}},
+      {new:true,runValidators:true}
+    )
+    if(!UpdatedUser)
+      return res.status(404).json({msg:"User not found check refID"})
+    return res.status(200).json({msg:"User updated successfully",UpdatedUser})
+  } catch (error) {
+    console.log(error)
+    console.error(error)
+    return res.status(500).json({error:"Internal server Error"})
+  }
+})
 module.exports = app;
